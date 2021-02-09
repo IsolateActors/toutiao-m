@@ -4,6 +4,7 @@ import router from '@/router'
 
 const request = axios.create({
   baseURL: 'http://ttapi.research.itcast.cn/'
+  // baseURL: 'https://toutiao.m.lipengzhou.com/api'
 })
 
 request.interceptors.request.use(
@@ -40,6 +41,8 @@ request.interceptors.response.use(
         const res = await axios({
           method: 'PUT',
           url: 'http://ttapi.research.itcast.cn/app/v1_0/authorizations',
+          // url: 'https://toutiao.m.lipengzhou.com/api/app/v1_0/authorizations',
+
           headers: {
             Authorization: `Bearer ${user.refresh_token}`
           }

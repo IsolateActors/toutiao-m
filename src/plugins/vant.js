@@ -14,9 +14,18 @@ import {
   CellGroup,
   Image as VanImage,
   Grid,
-  GridItem
+  GridItem,
+  Dialog,
+  Tab,
+  Tabs,
+  List,
+  PullRefresh
 } from 'vant'
 
+Vue.use(PullRefresh)
+Vue.use(List)
+Vue.use(Tab)
+Vue.use(Tabs)
 Vue.use(Button)
 Vue.use(NavBar)
 Vue.use(TabbarItem)
@@ -31,3 +40,4 @@ Vue.use(CellGroup)
 Vue.use(VanImage)
 Vue.use(Grid)
 Vue.use(GridItem)
+Vue.use(Dialog)
