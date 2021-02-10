@@ -19,9 +19,11 @@ import {
   Tab,
   Tabs,
   List,
-  PullRefresh
+  PullRefresh,
+  Popup
 } from 'vant'
 
+Vue.use(Popup)
 Vue.use(PullRefresh)
 Vue.use(List)
 Vue.use(Tab)

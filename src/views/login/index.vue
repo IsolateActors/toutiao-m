@@ -89,6 +89,7 @@ export default {
         console.log(data)
         this.$toast.success('登录成功！')
         this.$store.commit('setUser', data.data)
+        this.$router.back()
       } catch (err) {
         this.$toast.fail('登录失败！')
       }
