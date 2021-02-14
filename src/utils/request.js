@@ -30,10 +30,12 @@ request.interceptors.response.use(
   },
   async function (error) {
   // 对响应错误做点什么
-    if (error.response && error.response.state === 401) {
+    console.log(error.response)
+    if (error.response && error.response.status === 401) {
       const user = store.state.user
 
       if (!user || !user.refresh_token) {
+        console.log('aaa')
         return router.push('/login')
       }
 
@@ -55,6 +57,7 @@ request.interceptors.response.use(
 
         return request(error.config)
       } catch (error) {
+        console.log('xxx')
         router.push('/login')
       }
     }

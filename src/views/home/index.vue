@@ -3,7 +3,7 @@
     <!-- 导航栏 -->
       <van-nav-bar>
         <template v-slot:title>
-            <van-button class="search-btn" round icon="search" size="small" type="info" url="/vant/mobile.html">搜索</van-button>
+            <van-button class="search-btn" round icon="search" size="small" type="info" to="/search">搜索</van-button>
         </template>
       </van-nav-bar>
 
