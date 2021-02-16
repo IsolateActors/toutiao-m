@@ -8,7 +8,7 @@
       :error.sync="error"
        error-text="请求失败，点击重新加载"
     >
-      <van-cell v-for="item in list" :key="item.art_id" :title="item.title" />
+      <van-cell v-for="item in list" :key="item.art_id" :title="item.title" :to="{name:'article', params:{articleId: item.art_id}}"/>
     </van-list>
   </div>
 </template>

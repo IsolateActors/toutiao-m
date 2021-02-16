@@ -2,9 +2,26 @@ import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
 
+import JSONbig from 'json-bigint'
+
 const request = axios.create({
-  baseURL: 'http://ttapi.research.itcast.cn/'
+  baseURL: 'http://ttapi.research.itcast.cn/',
   // baseURL: 'https://toutiao.m.lipengzhou.com/api'
+
+  // `transformResponse` 在传递给 then/catch 前，允许修改响应数据
+  transformResponse: [function (data) {
+    // 对 data 进行任意转换处理
+    try {
+      return JSONbig.parse(data)
+    } catch (error) {
+      console.log('转换失败', error)
+      return data
+    }
+    // axios 默认在内部使用 JSON.parse 来转换处理原始数据
+  // return JSON.parse(data)
+  }]
+
+  // timeout: 3600
 })
 
 request.interceptors.request.use(
@@ -18,6 +35,7 @@ request.interceptors.request.use(
   },
   function (error) {
     // 对请求错误做些什么
+    console.log('aaa' + error)
     return Promise.reject(error)
   }
 )
@@ -62,6 +80,7 @@ request.interceptors.response.use(
       }
     }
 
+    console.log(error)
     return Promise.reject(error)
   })
 
