@@ -17,6 +17,16 @@ export default {
     return {
       active: 0
     }
+  },
+  computed: {
+    // active: {
+    //   get () {
+    //     return this.$store.state.tabbarActive
+    //   },
+    //   set (value) {
+    //     this.$store.commit('setTabbarActive', value)
+    //   }
+    // }
   }
 }
 </script>

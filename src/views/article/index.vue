@@ -8,7 +8,7 @@
         />
 
     <div class="article-wrap">
-        <h1 class="title">{{article.title}}</h1>
+        <h1 ref="h1" class="title">{{article.title}}</h1>
         <van-cell class="user-info" center :title="article.aut_name" :label="article.pubdate | relativeTime">
             <template #icon>
                 <van-image
@@ -16,7 +16,7 @@
                     round
                     fit="cover"
                     :src="article.aut_photo"
-/>
+                />
             </template>
             <template #extra>
                 <van-button class="follow-btn" :type="article.is_followed?'default':'info'" :icon="article.is_followed?'':'plus'" round size="small"
@@ -28,16 +28,27 @@
         <div class="markdown-body" ref='article-content' v-html="article.content">
         </div>
 
-        <comment-list :source="articleId"></comment-list>
+        <comment-list ref="comment-list" :list="commentList" :source="articleId" @update-total-count='totalCommentCount = $event'
+        @reply-click='onReplayClick'
+        ></comment-list>
     </div>
 
     <div class="article-bottom">
-            <van-button class="comment-btn" plain round size="small" hairline type="default">写评论</van-button>
+            <van-button class="comment-btn" plain round size="small" hairline type="default" @click="isPostShow = true">写评论</van-button>
 
-            <van-icon name="comment-o" badge='123' color="#777"/>
+            <van-icon name="comment-o" :badge='totalCommentCount' color="#777" @click="onComment"/>
             <van-icon :color="article.is_collected ? 'orange':'#777'" :name="article.is_collected ?'star':'star-o'" @click="onCollect" />
             <van-icon :color="article.attitude === 1 ? 'hotpink': '#777'" :name="article.attitude === 1 ? 'good-job':'good-job-o'" @click="onLike" />
         </div>
+
+        <van-popup v-model="isPostShow" position="bottom">
+          <post-comment :target="articleId" @post-fail='isPostShow = false'
+          @post-success='onPostSuccess'></post-comment>
+        </van-popup>
+
+        <van-popup style="height:90%" v-model="isReplyShow" position="bottom">
+          <comment-reply v-if="isReplyShow"  :comment="replyComment" @close='isReplyShow=false' :article-id="articleId"></comment-reply>
+        </van-popup>
   </div>
 </template>
 
@@ -48,6 +59,9 @@ import { ImagePreview } from 'vant'
 import { addFollow, deleteFollow } from '../../api/user'
 
 import CommentList from '../../components/article/comment-list.vue'
+import PostComment from '../../components/article/post-comment.vue'
+import CommentReply from '../../components/article/comment-reply.vue'
+
 export default {
   props: {
     articleId: {
@@ -59,11 +73,18 @@ export default {
     return {
       article: {},
       isFollowLoading: false,
-      isCollectLoading: false
+      isCollectLoading: false,
+      isPostShow: false,
+      isReplyShow: false,
+      commentList: [],
+      totalCommentCount: 0,
+      replyComment: {}
     }
   },
   components: {
-    CommentList
+    CommentList,
+    PostComment,
+    CommentReply
   },
   created () {
     this.loadArticle()
@@ -153,6 +174,25 @@ export default {
       }
 
       this.$toast.success(this.article.attitude === 1 ? '点赞成功' : '取消点赞')
+    },
+
+    onPostSuccess (comment) {
+      console.log(comment)
+      this.commentList.unshift(comment)
+      this.totalCommentCount++
+      this.isPostShow = false
+    },
+
+    onComment () {
+      // console.log(this.$refs['comment-list'].$el)
+      // console.log(this.$refs.h1)
+      this.$refs['comment-list'].$el.scrollIntoView()
+    },
+
+    onReplayClick (comment) {
+      console.log('onReplayClick', comment)
+      this.replyComment = comment
+      this.isReplyShow = true
     }
   }
 }

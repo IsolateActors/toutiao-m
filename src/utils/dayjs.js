@@ -13,3 +13,9 @@ Vue.filter('relativeTime', value => {
   if (!value) return ''
   return dayjs().to(dayjs(value)) // n年后
 })
+
+// 全局过滤器：处理相对时间
+Vue.filter('datetime', (value, format = 'YYYY-MM-DD HH:mm:ss') => {
+  if (!value) return ''
+  return dayjs(value).format(format)
+})

@@ -21,9 +21,13 @@ import {
   List,
   PullRefresh,
   Popup,
-  Search
+  Search,
+  Picker,
+  DatetimePicker
 } from 'vant'
 
+Vue.use(DatetimePicker)
+Vue.use(Picker)
 Vue.use(Search)
 Vue.use(Popup)
 Vue.use(PullRefresh)

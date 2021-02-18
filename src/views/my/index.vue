@@ -16,7 +16,7 @@
         </template>
 
         <template #right-icon>
-          <van-button class="update-btn" round plain type="info" size='small'>编辑资料</van-button>
+          <van-button class="update-btn" round plain type="info" size='small' to='/user/profile'>编辑资料</van-button>
         </template>
       </van-cell>
 
