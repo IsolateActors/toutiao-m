@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
+import { Toast } from 'vant'
 
 import JSONbig from 'json-bigint'
 
@@ -49,12 +50,15 @@ request.interceptors.response.use(
   async function (error) {
   // 对响应错误做点什么
     console.log(error.response)
-    if (error.response && error.response.status === 401) {
+    const { status } = error.response
+    if (status === 401) {
+      // 未授权
       const user = store.state.user
 
-      if (!user || !user.refresh_token) {
+      if (!user || !user.token) {
         console.log('aaa')
-        return router.push('/login')
+        // return router.push('/login')
+        return redirectLogin()
       }
 
       try {
@@ -76,12 +80,29 @@ request.interceptors.response.use(
         return request(error.config)
       } catch (error) {
         console.log('xxx')
-        router.push('/login')
+        // router.push('/login')
+        redirectLogin()
       }
+    } else if (status === 403) {
+      // 没有权限
+      Toast.fail('没有权限操作')
+    } else if (status === 400) {
+      // 资源不存在
+      Toast.fail('客户端请求参数异常')
+    } else if (status >= 500) {
+      Toast.fail('服务端异常，请稍后重试')
     }
 
     console.log(error)
     return Promise.reject(error)
   })
 
+function redirectLogin () {
+  router.replace({
+    name: 'login',
+    query: {
+      redirect: router.currentRoute.fullPath
+    }
+  })
+}
 export default request

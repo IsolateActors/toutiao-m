@@ -1,5 +1,8 @@
 <template>
   <div class="qa-container">
+     <van-nav-bar
+        title="问答"
+        />
       待开发
   </div>
 </template>
