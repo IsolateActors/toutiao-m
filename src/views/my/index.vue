@@ -49,7 +49,12 @@
     </van-cell-group>
 
     <div v-else class="not-login">
-      <div @click="$router.push('/login')">
+      <div @click="$router.push({
+        name: 'login',
+        query:{
+          redirect: '/my'
+        }
+      })">
         <img class="mobile" src="./手机.png" alt="">
         <div class="text">登录 / 注册</div>
       </div>
@@ -70,7 +75,7 @@
     </van-grid>
 
     <van-cell title="消息通知" is-link to='/' />
-    <van-cell class="mb-4" title="小智同学" is-link to='/' />
+    <van-cell class="mb-4" title="小智同学" is-link to='/user/chat' />
     <van-cell v-if="user" class="logout-cell" title="退出登录" @click="onLogout" />
   </div>
 </template>
@@ -95,20 +100,33 @@ export default {
       })
         .then(() => {
           this.$store.commit('setUser', null)
+          // this.$store.commit('removeCachePage', 'layoutIndex')
         })
         .catch(() => {
         })
     },
 
     async loadCurrentUser () {
-      const { data } = await getCurrentUser()
-      console.log(data)
-      this.currentUser = data.data
+      try {
+        const { data } = await getCurrentUser()
+        console.log('getCurrentUser', data)
+        this.currentUser = data.data
+      } catch (error) {
+        this.$toast.fail('获取用户失败，请先登录！')
+      }
     }
   },
   created () {
-    this.loadCurrentUser()
+    if (this.user) {
+      this.loadCurrentUser()
+    }
+  },
+  activated () {
+    if (this.user) {
+      this.loadCurrentUser()
+    }
   }
+
 }
 </script>
 

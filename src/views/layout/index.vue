@@ -1,8 +1,11 @@
 <template>
   <div class="layout-container">
-    <router-view></router-view>
+    <!-- layout 的子路由出口，或者说是二级路由 -->
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
 
-    <van-tabbar v-model="active">
+    <van-tabbar route v-model="active">
     <van-tabbar-item icon="home-o" to='/'>首页</van-tabbar-item>
     <van-tabbar-item icon="comment-o" to='/qa'>问答</van-tabbar-item>
     <van-tabbar-item icon="video-o" to='/video'>视频</van-tabbar-item>
@@ -13,6 +16,7 @@
 
 <script>
 export default {
+  name: 'LayoutIndex',
   data () {
     return {
       active: 0
@@ -27,6 +31,9 @@ export default {
     //     this.$store.commit('setTabbarActive', value)
     //   }
     // }
+  },
+  mounted () {
+    // this.$store.commit('addCachePage', 'layoutIndex')
   }
 }
 </script>

@@ -69,6 +69,12 @@ export default {
   },
   created () {
     this.loadChannels()
+  },
+  watch: {
+    user () {
+      this.active = 0
+      this.loadChannels()
+    }
   }
 }
 </script>

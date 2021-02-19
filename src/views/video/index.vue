@@ -1,6 +1,6 @@
 <template>
-  <div class="login-container">
-      登录页面
+  <div class="video-container">
+      待开发
   </div>
 </template>
 
@@ -11,5 +11,9 @@ export default {
 </script>
 
 <style>
-
+  .video-container{
+    font-size: 12px;
+    text-align: center;
+    color: firebrick;
+  }
 </style>
